@@ -10,8 +10,12 @@ class Student_model extends CI_Model {
     }
 
     // Function to get all students
-    public function get_all_students() {
-        $query = $this->db->get('student');
+    public function get_all_students($where = array()) {
+        if($where) {
+            $query = $this->db->where($where)->get('student');
+        }else{
+            $query = $this->db->get('student');
+        }
         return $query->result_array();
     }
 

@@ -19,7 +19,11 @@ class Student extends CI_Controller {
     public function api_student()
     {
         header('Content-Type: application/json');
-        $data = $this->mod->get_all_students();
+        $search = $this->input->post('search');
+        $sel_gender = $this->input->post('sel_gender');
+        $where = [];
+        if($sel_gender){$where['gender'] = $sel_gender;}
+        $data = $this->mod->get_all_students($where);
         echo json_encode($data);
     }
 

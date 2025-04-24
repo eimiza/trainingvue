@@ -110,7 +110,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary btn-block">Find Now</button>
+                    <button @click="get_list()" class="btn btn-primary btn-block">Find Now</button>
                 </div>
             </div>
             <br>
@@ -186,7 +186,10 @@
                 },
                 get_list(){
                     var self = this;
-                    $.post('student/api_student', function(res){
+                    $.post('student/api_student', {
+                        search: self.search,
+                        sel_gender: self.sel_gender,
+                    }, function(res){
                         self.data = res;
                     });
                 },
