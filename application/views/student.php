@@ -99,6 +99,22 @@
 			</div>
             <br>
             <div class="row">
+                <div class="col-md-7">
+                    <input type="text" class="form-control" placeholder="Search" v-model="search">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" v-model="sel_gender">
+                        <option value="">All</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-block">Find Now</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered">
                         <thead>
@@ -118,7 +134,7 @@
                                     {{index+1}}
                                 </td>
                                 <td>{{item.name}}</td>
-                                <td>{{item.gender}}</td>
+                                <td>{{convert_gender(item.gender)}}</td>
                                 <td>{{item.phone}}</td>
                                 <td>{{item.faculty}}</td>
                                 <td>
@@ -142,6 +158,8 @@
                 data: [],
 				visible: false,
                 sel_id: [],
+                search: '',
+                sel_gender: '',
 
                 // kemaskini data
                 id: '',
@@ -213,6 +231,13 @@
                         self.clear_input();
                         Swal.fire('Success', 'Data edit successfully', 'success');
                     });
+                },
+                convert_gender(code){
+                    if(code == 'M'){
+                        return 'Male';
+                    }else{
+                        return 'Female'
+                    }
                 },
                 delete_data(id){
                     var self = this;
