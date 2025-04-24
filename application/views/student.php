@@ -10,6 +10,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 	<div id="app">
@@ -116,6 +117,12 @@
                         self.data = res;
                     });
                 },
+                clear_input(){
+                    this.name = '';
+                    this.gender = '';
+                    this.phone = '';
+                    this.faculty = '';
+                },
                 add_data(){
                     var self = this;
                     $.post('student/api_add', {
@@ -123,7 +130,12 @@
                         gender: self.gender,
                         phone: self.phone,
                         faculty: self.faculty,
-                    })
+                    }, function(res){
+                        $('#addDataModal').modal('hide');
+                        self.get_list();
+                        self.clear_input();
+                        Swal.fire('Success', 'Data added successfully', 'success');
+                    });
                 }
 			},
             mounted() {
