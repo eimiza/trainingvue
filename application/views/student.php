@@ -27,24 +27,24 @@
                     <form>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" id="name" class="form-control" required>
+                            <input type="text" id="name" v-model="name" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender</label>
-                            <select id="gender" class="form-control" required>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                            <select v-model="gender" id="gender" class="form-control" required>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="text" id="phone" class="form-control" required>
+                            <input v-model="phone" type="text" id="phone" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="faculty">Faculty</label>
-                            <input type="text" id="faculty" class="form-control" required>
+                            <input v-model="faculty" type="text" id="faculty" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button @click="add_data()" type="button" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -95,6 +95,12 @@
 				message: 'hello world',
                 data: [],
 				visible: false,
+
+                // kemaskini data
+                name: '',
+                gender: '',
+                phone: '',
+                faculty: '',
 			},
 			methods: {
 				showAlert(num) {
@@ -109,6 +115,15 @@
                     $.post('student/api_student', function(res){
                         self.data = res;
                     });
+                },
+                add_data(){
+                    var self = this;
+                    $.post('student/api_add', {
+                        name: self.name,
+                        gender: self.gender,
+                        phone: self.phone,
+                        faculty: self.faculty,
+                    })
                 }
 			},
             mounted() {
