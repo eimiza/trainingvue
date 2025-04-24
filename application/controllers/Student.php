@@ -41,4 +41,10 @@ class Student extends CI_Controller {
         $data['faculty'] = $this->input->post('faculty');
         $this->mod->update_student($id, $data);
     }
+
+    public function api_delete()
+    {
+        $id = $this->input->post('id');
+        $this->mod->delete_student($id);
+    }
 }

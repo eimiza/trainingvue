@@ -116,7 +116,10 @@
                                 <td>{{item.gender}}</td>
                                 <td>{{item.phone}}</td>
                                 <td>{{item.faculty}}</td>
-                                <td><button @click="show_edit(item)" class="btn btn-warning">Edit</button></td>
+                                <td>
+                                    <button @click="show_edit(item)" class="btn btn-warning">Edit</button>
+                                    <button @click="delete_data(item.id)" class="btn btn-danger">Delete</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -198,6 +201,25 @@
                         Swal.fire('Success', 'Data edit successfully', 'success');
                     });
                 },
+                delete_data(id){
+                    var self = this;
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.post('student/api_delete', {id: id}, function(res){
+                                self.get_list();
+                                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+                            });
+                        }
+                    })
+                }
 			},
             mounted() {
                 this.get_list();
