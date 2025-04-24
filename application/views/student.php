@@ -52,6 +52,43 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editDataModal" tabindex="-1" role="dialog" aria-labelledby="addDataModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDataModalLabel">Edit Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" v-model="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select v-model="gender" id="gender" class="form-control" required>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input v-model="phone" type="text" id="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="faculty">Faculty</label>
+                            <input v-model="faculty" type="text" id="faculty" class="form-control" required>
+                        </div>
+                        <button @click="edit_data()" type="button" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -79,7 +116,7 @@
                                 <td>{{item.gender}}</td>
                                 <td>{{item.phone}}</td>
                                 <td>{{item.faculty}}</td>
-                                <td></td>
+                                <td><button @click="show_edit(item)" class="btn btn-warning">Edit</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -98,6 +135,7 @@
 				visible: false,
 
                 // kemaskini data
+                id: '',
                 name: '',
                 gender: '',
                 phone: '',
@@ -110,6 +148,14 @@
 				},
                 show_add(){
                     $('#addDataModal').modal('show');
+                },
+                show_edit(item){
+                    this.id = item.id;
+                    this.name = item.name;
+                    this.gender = item.gender;
+                    this.phone = item.phone;
+                    this.faculty = item.faculty;
+                    $('#editDataModal').modal('show');
                 },
                 get_list(){
                     var self = this;
@@ -136,7 +182,22 @@
                         self.clear_input();
                         Swal.fire('Success', 'Data added successfully', 'success');
                     });
-                }
+                },
+                edit_data(){
+                    var self = this;
+                    $.post('student/api_edit', {
+                        id: self.id,
+                        name: self.name,
+                        gender: self.gender,
+                        phone: self.phone,
+                        faculty: self.faculty,
+                    }, function(res){
+                        $('#editDataModal').modal('hide');
+                        self.get_list();
+                        self.clear_input();
+                        Swal.fire('Success', 'Data edit successfully', 'success');
+                    });
+                },
 			},
             mounted() {
                 this.get_list();

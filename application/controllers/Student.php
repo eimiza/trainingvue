@@ -31,4 +31,14 @@ class Student extends CI_Controller {
         $this->mod->insert_student($data);
         echo json_encode($this->db->insert_id());
     }
+
+    public function api_edit()
+    {
+        $id = $this->input->post('id');
+        $data['name'] = $this->input->post('name');
+        $data['gender'] = $this->input->post('gender');
+        $data['phone'] = $this->input->post('phone');
+        $data['faculty'] = $this->input->post('faculty');
+        $this->mod->update_student($id, $data);
+    }
 }
