@@ -36,12 +36,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                            <tr v-for="(item, index) in data">
+                                <td>{{index+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.gender}}</td>
+                                <td>{{item.phone}}</td>
+                                <td>{{item.faculty}}</td>
                                 <td></td>
                             </tr>
                         </tbody>
