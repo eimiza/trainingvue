@@ -17,7 +17,7 @@ class Student extends CI_Controller {
 
     public function api_student()
     {
-        $data = $this->mod->get_all_students();
+        $data = $this->mod->get_all_students();;
         echo json_encode($data);
     }
 }
