@@ -16,7 +16,7 @@
 			<div class="row">
 				<div class="col-md-12">
 
-					
+					{{message}}
 				
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 		new Vue({
 			el: '#app',
 			data: {
-				message: '',
+				message: 'hello world',
 				visible: false,
 			},
 			methods: {
