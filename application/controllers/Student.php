@@ -47,4 +47,13 @@ class Student extends CI_Controller {
         $id = $this->input->post('id');
         $this->mod->delete_student($id);
     }
+
+    public function api_delete_batch()
+    {
+        $id = $this->input->post('id');
+        foreach ($id as $key => $value) {
+            $this->mod->delete_student($value);
+        }
+
+    }
 }

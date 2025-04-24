@@ -89,13 +89,14 @@
         </div>
     </div>
 
-		<div class="container">
+		<div class="container"><br>
 			<div class="row">
 				<div class="col-md-12">
                     <button @click="show_add()" class="btn btn-primary">Add Data</button>
+                    <button @click="batch_delete()" v-show="sel_id.length > 0" class="btn btn-danger">Batch Delete Data</button>
 				</div>
 			</div>
-            <br>
+            <br>{{sel_id}}
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered">
@@ -111,7 +112,10 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, index) in data">
-                                <td>{{index+1}}</td>
+                                <td>
+                                    <input type="checkbox" v-model="sel_id" :value="item.id">
+                                    {{index+1}}
+                                </td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.gender}}</td>
                                 <td>{{item.phone}}</td>
@@ -136,6 +140,7 @@
 				message: 'hello world',
                 data: [],
 				visible: false,
+                sel_id: [],
 
                 // kemaskini data
                 id: '',
@@ -215,6 +220,26 @@
                         if (result.isConfirmed) {
                             $.post('student/api_delete', {id: id}, function(res){
                                 self.get_list();
+                                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+                            });
+                        }
+                    })
+                },
+                batch_delete(){
+                    var self = this;
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.post('student/api_delete_batch', {id: self.sel_id}, function(res){
+                                self.get_list();
+                                self.sel_id = [];
                                 Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
                             });
                         }
