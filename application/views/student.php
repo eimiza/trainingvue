@@ -22,6 +22,32 @@
                     <button @click="get_list()" class="btn btn-primary">Get Data</button>
 				</div>
 			</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th>faculty</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 		</div>
 
 	</div>
@@ -41,11 +67,14 @@
 				},
                 get_list(){
                     var self = this;
-                    $.get('student/api_student', function(res){
+                    $.post('student/api_student', function(res){
                         self.data = res;
                     });
                 }
-			}
+			},
+            mounted() {
+                this.get_list();
+            }
 		});
 	</script>
     
