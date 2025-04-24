@@ -45,7 +45,8 @@
                             <label for="faculty">Faculty</label>
                             <input v-model="faculty" type="text" id="faculty" class="form-control" required>
                         </div>
-                        <button @click="add_data()" type="button" class="btn btn-primary">Submit</button>
+                        <button v-if="name != '' && gender != '' && phone != '' && faculty != ''" @click="add_data()" type="button" class="btn btn-primary">Submit</button>
+                        <button v-else disabled type="button" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -96,7 +97,7 @@
                     <button @click="batch_delete()" v-show="sel_id.length > 0" class="btn btn-danger">Batch Delete Data</button>
 				</div>
 			</div>
-            <br>{{sel_id}}
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered">
@@ -185,10 +186,17 @@
                         phone: self.phone,
                         faculty: self.faculty,
                     }, function(res){
-                        $('#addDataModal').modal('hide');
-                        self.get_list();
-                        self.clear_input();
-                        Swal.fire('Success', 'Data added successfully', 'success');
+                        console.log(res);
+                        if(res.status == 'error'){
+                            Swal.fire('Error', res.message, 'error');
+                            return;
+                        }else{
+                            $('#addDataModal').modal('hide');
+                            self.get_list();
+                            self.clear_input();
+                            Swal.fire('Success', 'Data added successfully', 'success');
+                        }
+                        
                     });
                 },
                 edit_data(){

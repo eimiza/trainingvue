@@ -8,6 +8,7 @@ class Student extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->model('Student_model', 'mod');
+        $this->load->library('form_validation');
     }
 
 	public function index()
@@ -24,16 +25,39 @@ class Student extends CI_Controller {
 
     public function api_add()
     {
+        header('Content-Type: application/json');
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('gender', 'Gender', 'required');
+        $this->form_validation->set_rules('phone', 'Phone', 'required|numeric');    
+        $this->form_validation->set_rules('faculty', 'Faculty', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $error = array(
+                'name' => form_error('name'),
+                'gender' => form_error('gender'),
+                'phone' => form_error('phone'),
+                'faculty' => form_error('faculty')
+            );
+            $res['status'] = 'error';
+            $res['message'] = 'Error occurred';
+            $res['error'] = $error;
+            echo json_encode($res);
+            return;
+        }
+
         $data['name'] = $this->input->post('name');
         $data['gender'] = $this->input->post('gender');
         $data['phone'] = $this->input->post('phone');
         $data['faculty'] = $this->input->post('faculty');
         $this->mod->insert_student($data);
-        echo json_encode($this->db->insert_id());
+        $res['status'] = 'success';
+        $res['message'] = 'Data successfully added';
+        $res['data'] = $this->db->insert_id();
+        echo json_encode($res);
     }
 
     public function api_edit()
     {
+        header('Content-Type: application/json');
         $id = $this->input->post('id');
         $data['name'] = $this->input->post('name');
         $data['gender'] = $this->input->post('gender');
