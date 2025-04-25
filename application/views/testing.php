@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js"></script>
 </head>
 <body>
     <div class="app">
@@ -41,6 +42,27 @@
 
     <script type="text/x-template" id="tester-template">
         <button @click="increment" class="btn btn-primary">Test {{localCount}}</button>
+    </script>
+
+    <script>
+        const store = new Vuex.Store({
+            state: {
+                count: 0
+            },
+            mutations: {
+                updateCount(state, newCount) {
+                    state.count = newCount;
+                }
+            },
+            actions: {
+                setCount({ commit }, newCount) {
+                    commit('updateCount', newCount);
+                }
+            },
+            getters: {
+                getCount: state => state.count
+            }
+        });
     </script>
 
     <script>
