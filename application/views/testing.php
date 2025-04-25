@@ -35,8 +35,12 @@
                     this.$emit('push', this.localCount);
                 }
             },
-            template: '<button @click="increment" class="btn btn-primary">Test {{localCount}}</button>'
+            template: '#tester-template',
         });
+    </script>
+
+    <script type="text/x-template" id="tester-template">
+        <button @click="increment" class="btn btn-primary">Test {{localCount}}</button>
     </script>
 
     <script>
