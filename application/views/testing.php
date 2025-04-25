@@ -16,6 +16,7 @@
 <body>
     <div class="app">
         <h1>{{count}}</h1> <br>
+        <h1>{{countFromVuex}}</h1> <br>
 
         <tester multiply="10" @push="updateCount"></tester>
         <tester multiply="100" @push="updateCount"></tester>
@@ -34,6 +35,7 @@
                 increment() {
                     this.localCount *= this.multiply;
                     this.$emit('push', this.localCount);
+                    this.$store.commit('updateCount', this.localCount);
                 }
             },
             template: '#tester-template',
@@ -67,7 +69,7 @@
 
     <script>
         new Vue({
-            el: '.app',
+            el: '.app', store,
             data: {
                 message: 'Hello, Vue!',
                 count: 0,
@@ -79,7 +81,12 @@
                 updateCount(valFormComponent) {
                     this.count = valFormComponent;
                 }
-            }
+            },
+            computed: {
+                countFromVuex() {
+                    return this.$store.state.count;
+                }
+            },
         });
     </script>
     
