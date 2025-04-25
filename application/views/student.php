@@ -282,6 +282,14 @@
                     })
                 }
 			},
+            watch: {
+                sel_gender: function(){
+                    this.get_list();
+                },
+                search: function(){
+                    this.get_list();
+                },
+            },
             mounted() {
                 this.get_list();
             }

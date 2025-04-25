@@ -23,7 +23,7 @@ class Student extends CI_Controller {
         $sel_gender = $this->input->post('sel_gender');
         $where = [];
         if($sel_gender){$where['gender'] = $sel_gender;}
-        $data = $this->mod->get_all_students($where);
+        $data = $this->mod->get_all_students($where, $search);
         echo json_encode($data);
     }
 
