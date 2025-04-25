@@ -30,28 +30,12 @@ class Student extends CI_Controller {
     public function api_add()
     {
         header('Content-Type: application/json');
-        $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('gender', 'Gender', 'required');
-        $this->form_validation->set_rules('phone', 'Phone', 'required|numeric');    
-        $this->form_validation->set_rules('faculty', 'Faculty', 'required');
-        if ($this->form_validation->run() == FALSE) {
-            $error = array(
-                'name' => form_error('name'),
-                'gender' => form_error('gender'),
-                'phone' => form_error('phone'),
-                'faculty' => form_error('faculty')
-            );
-            $res['status'] = 'error';
-            $res['message'] = 'Error occurred';
-            $res['error'] = $error;
-            echo json_encode($res);
-            return;
-        }
-
-        $data['name'] = $this->input->post('name');
-        $data['gender'] = $this->input->post('gender');
-        $data['phone'] = $this->input->post('phone');
-        $data['faculty'] = $this->input->post('faculty');
+        $form = $this->input->post('form');
+        
+        $data['name'] = $form['name'];
+        $data['gender'] = $form['gender'];
+        $data['phone'] = $form['phone'];
+        $data['faculty'] = $form['faculty'];
         $this->mod->insert_student($data);
         $res['status'] = 'success';
         $res['message'] = 'Data successfully added';

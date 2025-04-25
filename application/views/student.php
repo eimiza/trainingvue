@@ -28,24 +28,24 @@
                     <form>
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" id="name" v-model="name" class="form-control" required>
+                            <input type="text" id="name" v-model="form.name" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender</label>
-                            <select v-model="gender" id="gender" class="form-control" required>
+                            <select v-model="form.gender" id="gender" class="form-control" required>
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input v-model="phone" type="text" id="phone" class="form-control" required>
+                            <input v-model="form.phone" type="text" id="phone" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="faculty">Faculty</label>
-                            <input v-model="faculty" type="text" id="faculty" class="form-control" required>
+                            <input v-model="form.faculty" type="text" id="faculty" class="form-control" required>
                         </div>
-                        <button v-if="name != '' && gender != '' && phone != '' && faculty != ''" @click="add_data()" type="button" class="btn btn-primary">Submit</button>
+                        <button v-if="form.name != '' && form.gender != '' && form.phone != '' && form.faculty != ''" @click="add_data()" type="button" class="btn btn-primary">Submit</button>
                         <button v-else disabled type="button" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -162,6 +162,7 @@
                 sel_gender: '',
 
                 // kemaskini data
+                form: {},
                 id: '',
                 name: '',
                 gender: '',
@@ -202,10 +203,7 @@
                 add_data(){
                     var self = this;
                     $.post('student/api_add', {
-                        name: self.name,
-                        gender: self.gender,
-                        phone: self.phone,
-                        faculty: self.faculty,
+                        form: self.form,
                     }, function(res){
                         console.log(res);
                         if(res.status == 'error'){
