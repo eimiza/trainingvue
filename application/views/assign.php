@@ -59,6 +59,12 @@
     </div>
 
     <script>
+        Vue.component('data-list', {
+            template: '<div>Ini adalah data list</div>',
+        });
+    </script>
+
+    <script>
         new Vue({
             el: '#app',
             data: {
