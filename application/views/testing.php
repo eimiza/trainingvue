@@ -14,13 +14,16 @@
 </head>
 <body>
     <div class="app">
-        {{message}}
+        <h1>{{count}}</h1> <br>
 
-        <tester></tester>
+        <tester multiply="10" @push="updateCount"></tester>
+        <tester multiply="100" @push="updateCount"></tester>
+        <tester multiply="1000" @push="updateCount"></tester>
     </div>
 
     <script>
         Vue.component('tester', {
+            props: ['multiply'],
             data() {
                 return {
                     localCount: 1,
@@ -28,7 +31,8 @@
             },
             methods: {
                 increment() {
-                    this.localCount++;
+                    this.localCount *= this.multiply;
+                    this.$emit('push', this.localCount);
                 }
             },
             template: '<button @click="increment" class="btn btn-primary">Test {{localCount}}</button>'
@@ -39,11 +43,15 @@
         new Vue({
             el: '.app',
             data: {
-                message: 'Hello, Vue!'
+                message: 'Hello, Vue!',
+                count: 0,
             },
-            method: {
+            methods: {
                 alertnow(){
                     alert('Hello, Vue!');
+                },
+                updateCount(valFormComponent) {
+                    this.count = valFormComponent;
                 }
             }
         });
