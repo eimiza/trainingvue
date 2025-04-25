@@ -38,7 +38,7 @@
                         <div class="card-body">
                             <div class="tab-content" >
                                 <div class="tab-pane fade show active" id="tab1">
-                                        Student content goes here
+                                        <data-list :data="student"></data-list>
                                 </div>
                                 <div class="tab-pane fade" id="tab2">
                                     Course Assign content goes here
@@ -60,20 +60,67 @@
 
     <script>
         Vue.component('data-list', {
-            template: '<div>Ini adalah data list</div>',
+            props: ['data'],
+            template: '#data-list',
+            methods: {
+                assignUser() {
+                    alert('Assigning user...');
+                }
+            }
         });
+    </script>
+
+    <script type="text/x-template" id="data-list">
+        <div>
+            <h2>Student List</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Faculty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in data" :key="index">
+                        <td>{{ index+1 }}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.faculty}}</td>
+                        <td><button @click="assignUser" class="btn btn-primary">Course</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </script>
 
     <script>
         new Vue({
             el: '#app',
             data: {
-                message: 'Hello, Vue!'
+                message: 'Hello, Vue!',
+                student: [],
+                course: [],
             },
             methods: {
                 reverseMessage() {
                     this.message = this.message.split('').reverse().join('');
+                },
+                get_student(){
+                    var self = this;
+                    $.post('student/api_student', {
+                        search: self.search,
+                        sel_gender: self.sel_gender,
+                    }, function(res){
+                        self.student = res;
+                    });
                 }
+            },
+            mounted() {
+                this.get_student();
             }
         });
     </script>
