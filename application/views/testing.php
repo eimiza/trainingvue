@@ -15,7 +15,25 @@
 <body>
     <div class="app">
         {{message}}
+
+        <tester></tester>
     </div>
+
+    <script>
+        Vue.component('tester', {
+            data() {
+                return {
+                    localCount: 1,
+                };
+            },
+            methods: {
+                increment() {
+                    this.localCount++;
+                }
+            },
+            template: '<button @click="increment" class="btn btn-primary">Test {{localCount}}</button>'
+        });
+    </script>
 
     <script>
         new Vue({
